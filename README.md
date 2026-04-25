@@ -1,0 +1,2 @@
+# Assina
+gerador de contratos
