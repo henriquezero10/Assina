@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assina — Contratos profissionais para freelancers</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#0c1525;
+  --navy2:#13202f;
+  --navy3:#1a2d40;
+  --gold:#c9a96e;
+  --gold2:#e0c285;
+  --gold3:#f0d9a8;
+  --cream:#f6f1e8;
+  --cream2:#ede7d8;
+  --white:#ffffff;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --serif:'Lora',Georgia,serif;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--navy);color:#fff;overflow-x:hidden;}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(12,21,37,.85);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.06);}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo-icon{width:34px;height:34px;background:var(--gold);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;}
+.nav-logo-icon svg{width:18px;height:18px;}
+.nav-logo-text{font-size:20px;font-weight:600;letter-spacing:-.02em;}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{font-size:14px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;}
+.nav-links a:hover{color:#fff;}
+.nav-cta{background:var(--gold);color:var(--navy);border:none;border-radius:8px;
+  padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);
+  text-decoration:none;transition:background .15s;}
+.nav-cta:hover{background:var(--gold2);}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(201,169,110,.13) 0%,transparent 70%);
+  pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,169,110,.3),transparent);}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,110,.12);
+  border:1px solid rgba(201,169,110,.25);border-radius:99px;padding:6px 16px;
+  font-size:12px;font-weight:500;color:var(--gold);margin-bottom:28px;}
+.hero-badge-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.hero h1{font-size:clamp(36px,6vw,68px);font-weight:700;line-height:1.1;
+  letter-spacing:-.03em;margin-bottom:24px;max-width:800px;margin-left:auto;margin-right:auto;}
+.hero h1 em{font-style:normal;color:var(--gold);}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:rgba(255,255,255,.5);line-height:1.7;
+  max-width:560px;margin:0 auto 40px;}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:60px;}
+.btn-hero{background:var(--gold);color:var(--navy);border:none;border-radius:10px;
+  padding:16px 32px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);
+  text-decoration:none;display:inline-block;transition:background .15s,transform .1s;}
+.btn-hero:hover{background:var(--gold2);transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);
+  border-radius:10px;padding:16px 32px;font-size:16px;font-weight:500;cursor:pointer;
+  font-family:var(--sans);text-decoration:none;display:inline-block;transition:all .15s;}
+.btn-ghost:hover{border-color:rgba(255,255,255,.5);color:#fff;}
+.hero-proof{display:flex;align-items:center;gap:20px;justify-content:center;flex-wrap:wrap;}
+.proof-avatars{display:flex;}
+.proof-avatar{width:32px;height:32px;border-radius:50%;border:2px solid var(--navy);
+  background:var(--navy3);display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:500;margin-left:-8px;}
+.proof-avatar:first-child{margin-left:0;}
+.proof-text{font-size:13px;color:rgba(255,255,255,.4);}
+.proof-text strong{color:rgba(255,255,255,.8);}
+.stars{color:var(--gold);font-size:14px;margin-right:4px;}
+
+/* ─── DEMO PREVIEW ─── */
+.demo-section{padding:0 24px 100px;max-width:1100px;margin:0 auto;}
+.demo-wrap{background:var(--navy2);border:1px solid rgba(255,255,255,.08);border-radius:20px;
+  overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.5);}
+.demo-topbar{background:var(--navy);padding:14px 20px;display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid rgba(255,255,255,.07);}
+.demo-dot{width:10px;height:10px;border-radius:50%;}
+.demo-dot.red{background:#ff5f57;}
+.demo-dot.yellow{background:#febc2e;}
+.demo-dot.green{background:#28c840;}
+.demo-url{flex:1;background:rgba(255,255,255,.05);border-radius:5px;padding:5px 12px;
+  font-size:12px;color:rgba(255,255,255,.3);margin:0 12px;}
+.demo-inner{display:grid;grid-template-columns:1fr 1fr;min-height:340px;}
+.demo-form-side{padding:24px;border-right:1px solid rgba(255,255,255,.07);}
+.demo-preview-side{background:#f0ebe2;padding:24px;}
+.demo-form-side .dlabel{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:12px;}
+.demo-field{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+  border-radius:6px;padding:8px 12px;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:8px;}
+.demo-field.filled{color:rgba(255,255,255,.85);border-color:rgba(201,169,110,.4);}
+.demo-btn-dl{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:6px;
+  padding:9px;font-size:12px;font-weight:600;margin-top:8px;}
+.preview-paper{background:#fff;border-radius:6px;padding:16px;color:#1a2635;}
+.pp-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  text-align:center;color:#0c1525;margin-bottom:4px;font-family:var(--sans);}
+.pp-sub{font-size:9px;color:#888;text-align:center;margin-bottom:10px;font-family:var(--sans);}
+.pp-line{height:1px;background:#ddd;margin-bottom:8px;}
+.pp-section-title{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:#0c1525;font-family:var(--sans);margin-bottom:4px;}
+.pp-p{font-size:9px;line-height:1.7;color:#334155;font-family:var(--sans);margin-bottom:8px;}
+.pp-sigs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.pp-sig-line{border-top:1px solid #ccc;padding-top:4px;text-align:center;font-size:8px;color:#888;font-family:var(--sans);}
+
+/* ─── SECTIONS ─── */
+section{padding:100px 24px;}
+.container{max-width:1100px;margin:0 auto;}
+.section-label{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:16px;}
+.section-title{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.02em;
+  line-height:1.2;margin-bottom:16px;}
+.section-sub{font-size:16px;color:rgba(255,255,255,.45);line-height:1.7;max-width:540px;}
+
+/* ─── PROBLEMA ─── */
+.problems{background:var(--navy2);border-radius:20px;padding:60px;
+  border:1px solid rgba(255,255,255,.07);}
+.problems-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;margin-top:40px;}
+.problem-item{display:flex;gap:14px;}
+.problem-icon{width:36px;height:36px;background:rgba(220,53,69,.12);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+.problem-text{font-size:14px;color:rgba(255,255,255,.55);line-height:1.6;}
+.problem-text strong{color:#fff;display:block;margin-bottom:2px;font-size:15px;}
+
+/* ─── COMO FUNCIONA ─── */
+.how-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:48px;}
+.how-step{background:var(--navy2);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:28px;}
+.how-num{font-size:36px;font-weight:700;color:rgba(201,169,110,.2);line-height:1;margin-bottom:16px;font-family:var(--serif);}
+.how-title{font-size:16px;font-weight:600;margin-bottom:8px;}
+.how-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;}
+.how-arrow{display:flex;align-items:center;justify-content:center;padding-top:60px;
+  color:rgba(255,255,255,.15);font-size:24px;}
+
+/* ─── FEATURES ─── */
+.features-bg{background:var(--navy2);}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:48px;}
+.feature-card{background:var(--navy);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:24px;
+  transition:border-color .2s,transform .2s;}
+.feature-card:hover{border-color:rgba(201,169,110,.3);transform:translateY(-3px);}
+.feature-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:22px;margin-bottom:16px;}
+.fi-gold{background:rgba(201,169,110,.12);}
+.fi-blue{background:rgba(99,179,237,.1);}
+.fi-green{background:rgba(104,211,145,.1);}
+.fi-pink{background:rgba(237,100,166,.1);}
+.fi-purple{background:rgba(159,122,234,.1);}
+.fi-teal{background:rgba(79,209,197,.1);}
+.feature-title{font-size:15px;font-weight:600;margin-bottom:8px;}
+.feature-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;}
+
+/* ─── DEPOIMENTOS ─── */
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:48px;}
+.testimonial{background:var(--navy2);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:28px;}
+.t-stars{color:var(--gold);font-size:15px;margin-bottom:16px;}
+.t-text{font-size:14px;color:rgba(255,255,255,.65);line-height:1.75;font-style:italic;margin-bottom:20px;}
+.t-author{display:flex;align-items:center;gap:12px;}
+.t-avatar{width:40px;height:40px;border-radius:50%;background:var(--navy3);display:flex;
+  align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--gold);}
+.t-name{font-size:14px;font-weight:500;}
+.t-role{font-size:12px;color:rgba(255,255,255,.35);}
+
+/* ─── PRICING ─── */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;
+  max-width:800px;margin:48px auto 0;}
+.price-card{background:var(--navy2);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:36px;}
+.price-card.featured{border-color:var(--gold);background:var(--navy3);position:relative;}
+.popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:var(--navy);font-size:12px;font-weight:700;
+  padding:4px 18px;border-radius:99px;white-space:nowrap;}
+.price-name{font-size:14px;font-weight:600;color:rgba(255,255,255,.55);margin-bottom:16px;
+  text-transform:uppercase;letter-spacing:.06em;}
+.price-val{font-size:48px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px;}
+.price-val span{font-size:20px;font-weight:400;color:rgba(255,255,255,.4);}
+.price-period{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:28px;}
+.price-features{list-style:none;margin-bottom:32px;}
+.price-features li{font-size:14px;color:rgba(255,255,255,.6);padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;}
+.price-features li:last-child{border-bottom:none;}
+.check{color:var(--gold);font-size:13px;flex-shrink:0;}
+.btn-plan{width:100%;background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;
+  font-family:var(--sans);transition:all .15s;}
+.btn-plan:hover{background:rgba(255,255,255,.15);}
+.btn-plan.featured{background:var(--gold);color:var(--navy);border-color:var(--gold);}
+.btn-plan.featured:hover{background:var(--gold2);}
+.price-note{text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,.3);}
+
+/* ─── FAQ ─── */
+.faq-list{max-width:680px;margin:48px auto 0;}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.07);padding:20px 0;}
+.faq-q{font-size:16px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;
+  align-items:center;gap:16px;}
+.faq-q:hover{color:var(--gold);}
+.faq-icon{color:var(--gold);font-size:20px;flex-shrink:0;transition:transform .2s;}
+.faq-a{font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s;}
+.faq-item.open .faq-a{max-height:200px;padding-top:12px;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+
+/* ─── CTA FINAL ─── */
+.cta-section{text-align:center;padding:100px 24px;position:relative;}
+.cta-section::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,110,.1) 0%,transparent 70%);pointer-events:none;}
+.cta-section h2{font-size:clamp(32px,5vw,56px);font-weight:700;letter-spacing:-.03em;
+  line-height:1.15;margin-bottom:20px;max-width:680px;margin-left:auto;margin-right:auto;}
+.cta-section h2 em{font-style:normal;color:var(--gold);}
+.cta-section p{font-size:17px;color:rgba(255,255,255,.45);margin-bottom:40px;}
+.cta-guarantee{font-size:13px;color:rgba(255,255,255,.3);margin-top:20px;}
+
+/* ─── FOOTER ─── */
+footer{border-top:1px solid rgba(255,255,255,.07);padding:40px 24px;text-align:center;
+  font-size:13px;color:rgba(255,255,255,.25);}
+footer strong{color:rgba(255,255,255,.5);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0c1525" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 17l4-4 4 4 8-8"/><path d="M17 9h4v4"/>
+      </svg>
+    </div>
+    <span class="nav-logo-text">Assina</span>
+  </div>
+  <div class="nav-links">
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#precos">Preços</a>
+    <a href="#faq">Dúvidas</a>
+  </div>
+  <a href="assina.html" class="nav-cta">Começar grátis</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Mais de 200 freelancers já usam o Assina
+    </div>
+    <h1>Contratos profissionais<br>em <em>menos de 2 minutos</em></h1>
+    <p class="hero-sub">Chega de perder tempo montando contrato do zero. Preencha os dados, visualize em tempo real e baixe o PDF — tudo pelo celular ou computador.</p>
+    <div class="hero-actions">
+      <a href="assina.html" class="btn-hero">Criar meu primeiro contrato →</a>
+      <a href="#como-funciona" class="btn-ghost">Ver como funciona</a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-avatars">
+        <div class="proof-avatar" style="background:#2d4a6b;">MR</div>
+        <div class="proof-avatar" style="background:#3d2d6b;">JP</div>
+        <div class="proof-avatar" style="background:#2d6b4a;">CS</div>
+        <div class="proof-avatar" style="background:#6b2d4a;">LS</div>
+      </div>
+      <div class="proof-text"><span class="stars">★★★★★</span> <strong>4.9/5</strong> · Adorado por freelancers</div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO PREVIEW -->
+<div class="demo-section">
+  <div class="demo-wrap">
+    <div class="demo-topbar">
+      <div class="demo-dot red"></div>
+      <div class="demo-dot yellow"></div>
+      <div class="demo-dot green"></div>
+      <div class="demo-url">assina.app/contrato</div>
+    </div>
+    <div class="demo-inner">
+      <div class="demo-form-side">
+        <div class="dlabel">Dados do contrato</div>
+        <div class="demo-field filled">João Silva — cliente</div>
+        <div class="demo-field filled">Criação de identidade visual</div>
+        <div class="demo-field filled">R$ 3.500,00 · Entrada R$ 1.750,00</div>
+        <div class="demo-field filled">PIX · 21 dias úteis · 2 revisões</div>
+        <div class="demo-field filled">São Paulo – SP · 24/04/2025</div>
+        <button class="demo-btn-dl">⬇ Baixar contrato em PDF</button>
+      </div>
+      <div class="demo-preview-side">
+        <div class="preview-paper">
+          <div class="pp-title">Contrato de Prestação de Serviços</div>
+          <div class="pp-sub">Serviços de Design & Identidade Visual</div>
+          <div class="pp-line"></div>
+          <div class="pp-section-title">Partes contratantes</div>
+          <div class="pp-p"><strong>Contratante:</strong> João Silva, CPF 123.456.789-00.<br><strong>Prestador:</strong> Maria Souza, CPF 987.654.321-00.</div>
+          <div class="pp-section-title">Cláusula 1ª — Objeto</div>
+          <div class="pp-p">Criação de identidade visual completa, incluindo logotipo, paleta de cores e manual da marca.</div>
+          <div class="pp-section-title">Cláusula 2ª — Valor</div>
+          <div class="pp-p">Valor total de <strong>R$ 3.500,00</strong>, sendo R$ 1.750,00 na assinatura e saldo na entrega. Pagamento via PIX.</div>
+          <div class="pp-sigs">
+            <div class="pp-sig-line">João Silva<br>Contratante</div>
+            <div class="pp-sig-line">Maria Souza<br>Prestador</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEMA -->
+<section>
+  <div class="container">
+    <div class="problems">
+      <div class="section-label">O problema</div>
+      <div class="section-title">Você ainda faz contrato<br>assim?</div>
+      <div class="problems-grid">
+        <div class="problem-item">
+          <div class="problem-icon">😤</div>
+          <div class="problem-text"><strong>Copia e cola de contrato velho</strong>Esquece de trocar o nome do cliente e envia errado. Já aconteceu com todo mundo.</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">⏰</div>
+          <div class="problem-text"><strong>Perde horas formatando</strong>Fica ajustando margem, fonte e espaçamento em vez de trabalhar no que gera dinheiro.</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">😰</div>
+          <div class="problem-text"><strong>Fica sem contrato por preguiça</strong>Fecha projeto no bico e depois o cliente some sem pagar. Prejuízo real.</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">📋</div>
+          <div class="problem-text"><strong>Contrato amador afasta cliente</strong>Um documento mal feito passa insegurança e faz você parecer iniciante.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="container">
+    <div class="section-label">Como funciona</div>
+    <div class="section-title">Simples assim</div>
+    <div class="section-sub">Três passos e seu contrato profissional está pronto para assinar.</div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-num">01</div>
+        <div class="how-title">Escolha o modelo</div>
+        <div class="how-desc">Design, desenvolvimento, social media, consultoria ou conteúdo. Cada modelo já vem com as cláusulas certas para o seu tipo de serviço.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">02</div>
+        <div class="how-title">Preencha os dados</div>
+        <div class="how-desc">Nome do cliente, serviço, valor, prazo e forma de pagamento. O contrato aparece atualizado em tempo real enquanto você digita.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">03</div>
+        <div class="how-title">Baixe o PDF</div>
+        <div class="how-desc">Clique em um botão e o contrato completo fica pronto para enviar ao cliente por WhatsApp, e-mail ou imprimir para assinar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-bg">
+  <div class="container">
+    <div class="section-label">Funcionalidades</div>
+    <div class="section-title">Tudo que você precisa</div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon fi-gold">📄</div>
+        <div class="feature-title">5 modelos prontos</div>
+        <div class="feature-desc">Design, desenvolvimento, social media, consultoria e conteúdo — com cláusulas específicas para cada área.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-blue">⚡</div>
+        <div class="feature-title">Preview em tempo real</div>
+        <div class="feature-desc">Veja o contrato atualizar enquanto você digita. Zero surpresa na hora de baixar o PDF.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-green">⬇</div>
+        <div class="feature-title">PDF profissional</div>
+        <div class="feature-desc">Download com um clique. Formatação impecável, pronto para enviar ou imprimir.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-pink">📱</div>
+        <div class="feature-title">Funciona no celular</div>
+        <div class="feature-desc">Gere contratos de qualquer lugar, direto do smartphone, sem instalar nada.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-purple">🔒</div>
+        <div class="feature-title">Cláusulas seguras</div>
+        <div class="feature-desc">Modelos criados para proteger você: propriedade intelectual, cancelamento e foro definidos.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-teal">🗂</div>
+        <div class="feature-title">Histórico de contratos</div>
+        <div class="feature-desc">Todos os seus contratos salvos em um lugar. Fácil de encontrar e reutilizar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section>
+  <div class="container">
+    <div class="section-label">Depoimentos</div>
+    <div class="section-title">Quem usa, aprova</div>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <div class="t-text">"Antes eu perdia 1 hora montando contrato no Word. Agora faço em 3 minutos e o cliente fica impressionado com o profissionalismo."</div>
+        <div class="t-author">
+          <div class="t-avatar">MR</div>
+          <div><div class="t-name">Marina Rodrigues</div><div class="t-role">Designer Freelancer · SP</div></div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <div class="t-text">"Fechei um projeto de R$ 8 mil e o cliente perguntou quem era meu advogado. Disse que usei o Assina. Ele adorou a seriedade do contrato."</div>
+        <div class="t-author">
+          <div class="t-avatar">JP</div>
+          <div><div class="t-name">João Paulo Mendes</div><div class="t-role">Dev Freelancer · MG</div></div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <div class="t-text">"Já fui calotada duas vezes por não ter contrato. Desde que comecei a usar o Assina, zero problema. Vale cada centavo da assinatura."</div>
+        <div class="t-author">
+          <div class="t-avatar">CS</div>
+          <div><div class="t-name">Camila Souza</div><div class="t-role">Social Media · RJ</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREÇOS -->
+<section id="precos" style="background:var(--navy2);">
+  <div class="container" style="text-align:center;">
+    <div class="section-label" style="justify-content:center;display:flex;">Preços</div>
+    <div class="section-title">Simples e sem surpresa</div>
+    <div class="section-sub" style="margin:0 auto;">7 dias grátis para testar. Cancele quando quiser.</div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Básico</div>
+        <div class="price-val">R$ 29<span>/mês</span></div>
+        <div class="price-period">Cobrado mensalmente</div>
+        <ul class="price-features">
+          <li><span class="check">✓</span> 10 contratos por mês</li>
+          <li><span class="check">✓</span> 3 modelos disponíveis</li>
+          <li><span class="check">✓</span> Download em PDF</li>
+          <li><span class="check">✓</span> Funciona no celular</li>
+        </ul>
+        <button class="btn-plan" onclick="window.location.href='assina.html'">Começar grátis</button>
+      </div>
+      <div class="price-card featured">
+        <div class="popular-badge">⭐ Mais popular</div>
+        <div class="price-name">Pro</div>
+        <div class="price-val">R$ 49<span>/mês</span></div>
+        <div class="price-period">Cobrado mensalmente</div>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Contratos ilimitados</li>
+          <li><span class="check">✓</span> Todos os 5 modelos</li>
+          <li><span class="check">✓</span> Download em PDF</li>
+          <li><span class="check">✓</span> Histórico completo</li>
+          <li><span class="check">✓</span> Dados pré-preenchidos</li>
+          <li><span class="check">✓</span> Suporte prioritário</li>
+        </ul>
+        <button class="btn-plan featured" onclick="window.location.href='assina.html'">Começar grátis</button>
+      </div>
+    </div>
+    <div class="price-note">💳 Não precisa de cartão para começar o teste gratuito</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container" style="text-align:center;">
+    <div class="section-label" style="justify-content:center;display:flex;">Dúvidas</div>
+    <div class="section-title">Perguntas frequentes</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Os contratos têm validade jurídica? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim. Contratos de prestação de serviços entre pessoas físicas ou jurídicas têm validade jurídica no Brasil independentemente de registro em cartório, desde que assinados pelas duas partes. O Assina gera contratos com todas as cláusulas necessárias para essa validade.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Posso personalizar os contratos com meu nome e dados? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim! Nas configurações você salva seus dados (nome, CPF/CNPJ e cidade) e eles são pré-preenchidos automaticamente em todos os seus contratos. Você só precisa preencher os dados do cliente.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Funciona no celular? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim, o Assina funciona perfeitamente em qualquer dispositivo — celular, tablet ou computador. Você pode gerar e baixar contratos de qualquer lugar, sem precisar instalar nada.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Como funciona o teste gratuito? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Você tem 7 dias para testar todas as funcionalidades sem precisar cadastrar cartão de crédito. Ao final do período, você escolhe o plano que faz mais sentido para você ou cancela sem custo algum.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Posso cancelar quando quiser? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim, sem burocracia. Você cancela quando quiser direto pelo painel, sem precisar falar com ninguém. Não existe fidelidade nem multa.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <h2>Seu próximo contrato<br>em <em>2 minutos</em></h2>
+  <p>Junte-se a centenas de freelancers que trabalham com mais segurança</p>
+  <a href="assina.html" class="btn-hero">Criar conta grátis — sem cartão →</a>
+  <div class="cta-guarantee">🔒 7 dias grátis · Cancele quando quiser · Sem burocracia</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Assina</strong> · Contratos profissionais para freelancers<br>
+  <span style="margin-top:8px;display:block;">© 2025 Assina · Todos os direitos reservados</span>
+</footer>
+
+<script>
+function toggleFaq(el){
+  const item = el.parentElement;
+  item.classList.toggle('open');
+}
+</script>
+</body>
+</html>
