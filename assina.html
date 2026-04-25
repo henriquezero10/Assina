@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assina — Contratos para Freelancers</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#0c1525;
+  --navy2:#13202f;
+  --navy3:#1a2d40;
+  --navy4:#223347;
+  --gold:#c9a96e;
+  --gold2:#e0c285;
+  --gold3:#f0d9a8;
+  --cream:#f6f1e8;
+  --cream2:#ede7d8;
+  --text-dark:#0c1525;
+  --text-muted:#64748b;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --serif:'Lora',Georgia,serif;
+  --radius:10px;
+}
+body{font-family:var(--sans);background:var(--navy);color:#fff;min-height:100vh;overflow-x:hidden;}
+
+/* ─── SCREENS ─── */
+.screen{display:none;min-height:100vh;}
+.screen.active{display:flex;}
+
+/* ─── LOGIN ─── */
+#screen-login{align-items:center;justify-content:center;flex-direction:column;
+  background:var(--navy);position:relative;overflow:hidden;}
+#screen-login::before{
+  content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,110,.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.login-box{width:100%;max-width:420px;padding:0 24px;z-index:1;}
+.login-logo{text-align:center;margin-bottom:40px;}
+.logo-mark{display:inline-flex;align-items:center;gap:10px;}
+.logo-icon{width:44px;height:44px;background:var(--gold);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;}
+.logo-icon svg{width:24px;height:24px;}
+.logo-text{font-size:28px;font-weight:600;letter-spacing:-.02em;color:#fff;}
+.logo-tagline{font-size:13px;color:rgba(255,255,255,.4);margin-top:8px;text-align:center;}
+.login-card{background:var(--navy2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:32px;}
+.login-card h2{font-size:20px;font-weight:600;margin-bottom:6px;}
+.login-card p{font-size:14px;color:rgba(255,255,255,.45);margin-bottom:28px;}
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:12px;font-weight:500;
+  letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px;}
+.form-group input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:11px 14px;font-size:14px;color:#fff;font-family:var(--sans);
+  transition:border-color .15s,background .15s;}
+.form-group input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.09);}
+.btn-primary{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:8px;
+  padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:var(--sans);
+  transition:background .15s,transform .1s;margin-top:8px;}
+.btn-primary:hover{background:var(--gold2);}
+.btn-primary:active{transform:scale(.98);}
+.login-footer{text-align:center;margin-top:20px;font-size:12px;color:rgba(255,255,255,.25);}
+.demo-hint{text-align:center;margin-top:16px;font-size:12px;color:rgba(255,255,255,.3);}
+.demo-hint span{color:var(--gold);cursor:pointer;} 
+.demo-hint span:hover{color:var(--gold2);}
+
+/* ─── APP ─── */
+#screen-app{flex-direction:column;}
+.app-layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{background:var(--navy2);border-right:1px solid rgba(255,255,255,.07);
+  padding:24px 0;display:flex;flex-direction:column;}
+.sidebar-logo{padding:0 20px 24px;border-bottom:1px solid rgba(255,255,255,.07);}
+.sidebar-logo .logo-mark{gap:8px;}
+.sidebar-logo .logo-text{font-size:20px;}
+.sidebar-nav{padding:20px 12px;flex:1;}
+.nav-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.25);padding:0 8px;margin-bottom:8px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
+  font-size:14px;color:rgba(255,255,255,.55);cursor:pointer;transition:all .15s;margin-bottom:2px;}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff;}
+.nav-item.active{background:rgba(201,169,110,.15);color:var(--gold);}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07);}
+.user-pill{display:flex;align-items:center;gap:10px;}
+.user-avatar{width:32px;height:32px;background:var(--gold);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--navy);}
+.user-name{font-size:13px;font-weight:500;}
+.user-plan{font-size:11px;color:rgba(255,255,255,.35);}
+
+/* MAIN CONTENT */
+.main-content{background:var(--navy);overflow-y:auto;}
+
+/* ─── DASHBOARD ─── */
+.page{padding:32px;display:none;}
+.page.active{display:block;}
+.page-header{margin-bottom:32px;}
+.page-title{font-size:24px;font-weight:600;margin-bottom:4px;}
+.page-sub{font-size:14px;color:rgba(255,255,255,.4);}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
+.stat-card{background:var(--navy2);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:20px;}
+.stat-num{font-size:28px;font-weight:600;margin-bottom:4px;}
+.stat-label{font-size:12px;color:rgba(255,255,255,.4);}
+.stat-gold{color:var(--gold);}
+.section-title{font-size:16px;font-weight:600;margin-bottom:16px;}
+.templates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:32px;}
+.template-card{background:var(--navy2);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);
+  padding:20px;cursor:pointer;transition:all .2s;}
+.template-card:hover{border-color:var(--gold);background:var(--navy3);transform:translateY(-2px);}
+.template-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;
+  justify-content:center;font-size:20px;margin-bottom:14px;}
+.template-name{font-size:14px;font-weight:500;margin-bottom:4px;}
+.template-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5;}
+.t-design{background:rgba(201,169,110,.15);}
+.t-dev{background:rgba(99,179,237,.12);}
+.t-social{background:rgba(237,100,166,.12);}
+.t-consult{background:rgba(104,211,145,.12);}
+.t-content{background:rgba(252,211,77,.1);}
+
+/* ─── CONTRACT EDITOR ─── */
+#page-editor{display:none;}
+#page-editor.active{display:grid;grid-template-columns:1fr 1fr;height:100vh;}
+.editor-form{background:var(--navy2);overflow-y:auto;padding:24px;border-right:1px solid rgba(255,255,255,.07);}
+.editor-form-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+.back-btn{background:rgba(255,255,255,.07);border:none;border-radius:6px;
+  padding:7px 12px;color:rgba(255,255,255,.6);cursor:pointer;font-size:13px;font-family:var(--sans);}
+.back-btn:hover{background:rgba(255,255,255,.12);color:#fff;}
+.editor-title{font-size:16px;font-weight:600;}
+.field-group{margin-bottom:14px;}
+.field-group label{display:block;font-size:11px;font-weight:500;letter-spacing:.05em;
+  text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px;}
+.field-group input,.field-group select,.field-group textarea{
+  width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;font-family:var(--sans);
+  transition:border-color .15s;}
+.field-group input:focus,.field-group select:focus,.field-group textarea:focus{
+  outline:none;border-color:var(--gold);}
+.field-group select option{background:#13202f;}
+.field-group textarea{resize:vertical;min-height:64px;line-height:1.5;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-divider{height:1px;background:rgba(255,255,255,.07);margin:20px 0;}
+.form-section{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.25);margin-bottom:12px;}
+.download-btn{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:8px;
+  padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);
+  transition:background .15s;margin-top:16px;}
+.download-btn:hover{background:var(--gold2);}
+
+/* CONTRACT PREVIEW */
+.preview-wrap{background:#e8e2d8;overflow-y:auto;display:flex;flex-direction:column;}
+.preview-topbar{background:var(--navy);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.preview-label-txt{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.preview-actions{display:flex;gap:8px;}
+.preview-btn{background:rgba(255,255,255,.1);border:none;border-radius:5px;
+  padding:6px 14px;font-size:12px;color:rgba(255,255,255,.7);cursor:pointer;font-family:var(--sans);}
+.preview-btn:hover{background:rgba(255,255,255,.18);color:#fff;}
+.preview-btn.accent{background:var(--gold);color:var(--navy);font-weight:600;}
+.preview-btn.accent:hover{background:var(--gold2);}
+.contract-paper{background:#fff;margin:20px auto;width:680px;max-width:calc(100% - 32px);
+  padding:52px 56px;font-family:var(--serif);color:var(--text-dark);
+  box-shadow:0 4px 32px rgba(0,0,0,.18);}
+.c-logo-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;}
+.c-brand{display:flex;align-items:center;gap:8px;}
+.c-brand-icon{width:28px;height:28px;background:var(--navy);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;}
+.c-brand-icon svg{width:14px;height:14px;}
+.c-brand-name{font-size:16px;font-weight:600;color:var(--navy);font-family:var(--sans);}
+.c-doc-num{font-size:11px;color:var(--text-muted);font-family:var(--sans);}
+.c-title{text-align:center;font-size:18px;font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--navy);margin-bottom:6px;}
+.c-subtitle{text-align:center;font-size:12px;color:var(--text-muted);font-family:var(--sans);margin-bottom:28px;}
+.c-divider{border:none;border-top:2px solid var(--navy);margin:0 0 20px;}
+.c-thin{border:none;border-top:1px solid #ddd;margin:18px 0;}
+.c-section{margin-bottom:16px;}
+.c-section-title{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--navy);font-family:var(--sans);margin-bottom:7px;}
+.c-p{font-size:13px;line-height:1.85;color:#1a2635;}
+.c-p + .c-p{margin-top:8px;}
+.blank{font-style:normal;font-weight:600;color:var(--navy);border-bottom:1.5px solid #999;
+  display:inline;padding-bottom:0;}
+.blank-empty{font-style:italic;color:#bbb;font-weight:400;border-bottom:1.5px solid #ccc;
+  display:inline;padding-bottom:0;}
+.c-sigs{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:40px;}
+.c-sig{text-align:center;}
+.c-sig-line{border-top:1.5px solid #333;margin-bottom:8px;}
+.c-sig-name{font-size:12px;font-weight:600;color:var(--navy);font-family:var(--sans);}
+.c-sig-label{font-size:11px;color:var(--text-muted);font-family:var(--sans);}
+.c-footer{margin-top:32px;padding-top:16px;border-top:1px solid #eee;
+  text-align:center;font-size:11px;color:#bbb;font-family:var(--sans);}
+.c-location{font-size:12px;color:var(--text-muted);font-family:var(--sans);margin-bottom:24px;}
+
+@media print{
+  body{background:#fff!important;}
+  .sidebar,.editor-form,.preview-topbar,.preview-wrap>*:not(.contract-paper){display:none!important;}
+  .app-layout{grid-template-columns:1fr!important;}
+  .main-content{overflow:visible;}
+  #page-editor{display:block!important;height:auto!important;grid-template-columns:1fr!important;}
+  .preview-wrap{background:#fff!important;overflow:visible;}
+  .contract-paper{margin:0!important;width:100%!important;max-width:100%!important;
+    box-shadow:none!important;padding:24px!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="screen-login" class="screen active">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="logo-mark">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0c1525" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 17l4-4 4 4 8-8"/><path d="M17 9h4v4"/>
+          </svg>
+        </div>
+        <span class="logo-text">Assina</span>
+      </div>
+      <div class="logo-tagline">Contratos profissionais para freelancers</div>
+    </div>
+    <div class="login-card">
+      <h2>Bem-vindo de volta</h2>
+      <p>Entre na sua conta para gerar contratos</p>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" id="login-email" placeholder="voce@email.com" value="demo@assina.app">
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="login-pass" placeholder="••••••••" value="demo123">
+      </div>
+      <button class="btn-primary" onclick="entrar()">Entrar na conta</button>
+      <div class="demo-hint">Teste agora: <span onclick="entrar()">entrar com conta demo →</span></div>
+    </div>
+    <div class="login-footer">© 2025 Assina · Todos os direitos reservados</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="screen-app" class="screen">
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-mark">
+          <div class="logo-icon" style="width:34px;height:34px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0c1525" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+              <path d="M3 17l4-4 4 4 8-8"/><path d="M17 9h4v4"/>
+            </svg>
+          </div>
+          <span class="logo-text">Assina</span>
+        </div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-label">Menu</div>
+        <div class="nav-item active" onclick="showPage('dashboard')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Painel
+        </div>
+        <div class="nav-item" onclick="showPage('contratos')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Meus contratos
+        </div>
+        <div class="nav-item" onclick="showPage('config')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14"/></svg>
+          Configurações
+        </div>
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-pill">
+          <div class="user-avatar" id="user-initial">D</div>
+          <div>
+            <div class="user-name" id="user-name-display">Demo User</div>
+            <div class="user-plan">Plano Pro · Ativo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content">
+
+      <!-- DASHBOARD -->
+      <div id="page-dashboard" class="page active">
+        <div class="page-header">
+          <div class="page-title">Bom dia 👋</div>
+          <div class="page-sub">Escolha um modelo e gere seu contrato em segundos</div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-num stat-gold">12</div>
+            <div class="stat-label">Contratos gerados</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">R$ 48.500</div>
+            <div class="stat-label">Volume contratado</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">7</div>
+            <div class="stat-label">Clientes ativos</div>
+          </div>
+        </div>
+
+        <div class="section-title">Modelos de contrato</div>
+        <div class="templates-grid">
+          <div class="template-card" onclick="abrirEditor('design')">
+            <div class="template-icon t-design">🎨</div>
+            <div class="template-name">Design & Visual</div>
+            <div class="template-desc">Logo, identidade visual, UI/UX, material gráfico</div>
+          </div>
+          <div class="template-card" onclick="abrirEditor('dev')">
+            <div class="template-icon t-dev">💻</div>
+            <div class="template-name">Desenvolvimento</div>
+            <div class="template-desc">Sites, sistemas, aplicativos e automações</div>
+          </div>
+          <div class="template-card" onclick="abrirEditor('social')">
+            <div class="template-icon t-social">📱</div>
+            <div class="template-name">Social Media</div>
+            <div class="template-desc">Gestão de redes, posts, campanhas e tráfego</div>
+          </div>
+          <div class="template-card" onclick="abrirEditor('consult')">
+            <div class="template-icon t-consult">🤝</div>
+            <div class="template-name">Consultoria</div>
+            <div class="template-desc">Mentoria, estratégia, assessoria e treinamentos</div>
+          </div>
+          <div class="template-card" onclick="abrirEditor('content')">
+            <div class="template-icon t-content">✍️</div>
+            <div class="template-name">Produção de Conteúdo</div>
+            <div class="template-desc">Textos, copywriting, roteiros e e-books</div>
+          </div>
+        </div>
+
+        <div class="section-title">Contratos recentes</div>
+        <div style="background:var(--navy2);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);overflow:hidden;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,.07);">
+                <th style="padding:12px 16px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.3);">Cliente</th>
+                <th style="padding:12px 16px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.3);">Serviço</th>
+                <th style="padding:12px 16px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.3);">Valor</th>
+                <th style="padding:12px 16px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.3);">Status</th>
+              </tr>
+            </thead>
+            <tbody id="contratos-lista">
+              <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+                <td style="padding:13px 16px;font-size:13px;">Luciana Ferreira</td>
+                <td style="padding:13px 16px;font-size:13px;color:rgba(255,255,255,.55);">Identidade Visual</td>
+                <td style="padding:13px 16px;font-size:13px;">R$ 3.200</td>
+                <td style="padding:13px 16px;"><span style="background:rgba(104,211,145,.15);color:#68d391;font-size:11px;padding:3px 10px;border-radius:99px;font-weight:500;">Assinado</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+                <td style="padding:13px 16px;font-size:13px;">Pedro Almeida</td>
+                <td style="padding:13px 16px;font-size:13px;color:rgba(255,255,255,.55);">Site institucional</td>
+                <td style="padding:13px 16px;font-size:13px;">R$ 5.800</td>
+                <td style="padding:13px 16px;"><span style="background:rgba(252,211,77,.1);color:#fcd34d;font-size:11px;padding:3px 10px;border-radius:99px;font-weight:500;">Aguardando</span></td>
+              </tr>
+              <tr>
+                <td style="padding:13px 16px;font-size:13px;">Studio Move</td>
+                <td style="padding:13px 16px;font-size:13px;color:rgba(255,255,255,.55);">Gestão de redes</td>
+                <td style="padding:13px 16px;font-size:13px;">R$ 1.500/mês</td>
+                <td style="padding:13px 16px;"><span style="background:rgba(104,211,145,.15);color:#68d391;font-size:11px;padding:3px 10px;border-radius:99px;font-weight:500;">Assinado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CONTRATOS -->
+      <div id="page-contratos" class="page">
+        <div class="page-header">
+          <div class="page-title">Meus contratos</div>
+          <div class="page-sub">Histórico completo dos seus contratos gerados</div>
+        </div>
+        <div style="background:var(--navy2);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:48px;text-align:center;">
+          <div style="font-size:32px;margin-bottom:12px;">📄</div>
+          <div style="font-size:15px;font-weight:500;margin-bottom:6px;">Seus contratos aparecerão aqui</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.35);">Crie um contrato no painel para começar</div>
+        </div>
+      </div>
+
+      <!-- CONFIG -->
+      <div id="page-config" class="page">
+        <div class="page-header">
+          <div class="page-title">Configurações</div>
+          <div class="page-sub">Personalize sua conta e seus dados padrão</div>
+        </div>
+        <div style="background:var(--navy2);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:28px;max-width:500px;">
+          <div style="font-size:14px;font-weight:600;margin-bottom:20px;">Seus dados (pré-preenchidos nos contratos)</div>
+          <div class="field-group"><label>Seu nome completo</label><input type="text" placeholder="Ex: Maria Souza" id="cfg-nome"></div>
+          <div class="field-group"><label>CPF / CNPJ</label><input type="text" placeholder="Ex: 123.456.789-00" id="cfg-cpf"></div>
+          <div class="field-group"><label>Cidade</label><input type="text" placeholder="Ex: São Paulo – SP" id="cfg-cidade"></div>
+          <button class="download-btn" style="margin-top:8px;" onclick="salvarConfig()">Salvar configurações</button>
+        </div>
+      </div>
+
+      <!-- EDITOR -->
+      <div id="page-editor">
+        <div class="editor-form">
+          <div class="editor-form-header">
+            <button class="back-btn" onclick="voltarDashboard()">← Voltar</button>
+            <div class="editor-title" id="editor-title">Novo contrato</div>
+          </div>
+
+          <div class="form-section">Partes do contrato</div>
+          <div class="field-group"><label>Nome do cliente (contratante)</label>
+            <input id="f-cliente" type="text" placeholder="Ex: João Silva" oninput="render()"></div>
+          <div class="field-group"><label>CPF / CNPJ do cliente</label>
+            <input id="f-cpf-cliente" type="text" placeholder="Ex: 123.456.789-00" oninput="render()"></div>
+          <div class="field-group"><label>Seu nome (prestador)</label>
+            <input id="f-prestador" type="text" placeholder="Ex: Maria Souza" oninput="render()"></div>
+          <div class="field-group"><label>Seu CPF / CNPJ</label>
+            <input id="f-cpf-prestador" type="text" placeholder="Ex: 987.654.321-00" oninput="render()"></div>
+
+          <div class="form-divider"></div>
+          <div class="form-section">Serviço</div>
+          <div class="field-group"><label>Descrição do serviço</label>
+            <textarea id="f-servico" placeholder="Descreva o serviço a ser prestado..." oninput="render()"></textarea></div>
+          <div class="field-group"><label>Entregas incluídas</label>
+            <textarea id="f-entregas" placeholder="Ex: 3 opções de logotipo, paleta de cores, tipografia e manual da marca em PDF." oninput="render()" style="min-height:52px;"></textarea></div>
+
+          <div class="form-divider"></div>
+          <div class="form-section">Valores & Pagamento</div>
+          <div class="row2">
+            <div class="field-group"><label>Valor total (R$)</label>
+              <input id="f-valor" type="text" placeholder="Ex: 3.500,00" oninput="render()"></div>
+            <div class="field-group"><label>Entrada (R$)</label>
+              <input id="f-entrada" type="text" placeholder="Ex: 1.750,00" oninput="render()"></div>
+          </div>
+          <div class="field-group"><label>Forma de pagamento</label>
+            <select id="f-pagamento" onchange="render()">
+              <option>PIX</option><option>Transferência bancária</option>
+              <option>Boleto bancário</option><option>Cartão de crédito</option>
+            </select></div>
+
+          <div class="form-divider"></div>
+          <div class="form-section">Prazo & Local</div>
+          <div class="row2">
+            <div class="field-group"><label>Prazo de entrega</label>
+              <input id="f-prazo" type="text" placeholder="Ex: 21 dias úteis" oninput="render()"></div>
+            <div class="field-group"><label>Revisões incluídas</label>
+              <input id="f-revisoes" type="text" placeholder="Ex: 2 rodadas" oninput="render()"></div>
+          </div>
+          <div class="row2">
+            <div class="field-group"><label>Cidade / Estado</label>
+              <input id="f-cidade" type="text" placeholder="Ex: São Paulo – SP" oninput="render()"></div>
+            <div class="field-group"><label>Data do contrato</label>
+              <input id="f-data" type="date" oninput="render()"></div>
+          </div>
+
+          <button class="download-btn" onclick="window.print()">⬇ Baixar contrato em PDF</button>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="preview-wrap">
+          <div class="preview-topbar">
+            <span class="preview-label-txt">Preview em tempo real</span>
+            <div class="preview-actions">
+              <button class="preview-btn" onclick="window.print()">Imprimir</button>
+              <button class="preview-btn accent" onclick="window.print()">⬇ Salvar PDF</button>
+            </div>
+          </div>
+          <div class="contract-paper" id="contract-paper">
+            <div class="c-logo-row">
+              <div class="c-brand">
+                <div class="c-brand-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 17l4-4 4 4 8-8"/><path d="M17 9h4v4"/>
+                  </svg>
+                </div>
+                <span class="c-brand-name">Assina</span>
+              </div>
+              <span class="c-doc-num" id="c-doc-num">Documento #0001</span>
+            </div>
+
+            <div class="c-title">Contrato de Prestação de Serviços</div>
+            <div class="c-subtitle" id="c-tipo-label">Serviços de Design & Identidade Visual</div>
+            <hr class="c-divider">
+
+            <div class="c-section">
+              <div class="c-section-title">Partes contratantes</div>
+              <p class="c-p"><b>Contratante:</b> <span id="c-cliente"></span>, portador(a) do CPF/CNPJ nº <span id="c-cpf-cliente"></span>.</p>
+              <p class="c-p" style="margin-top:8px;"><b>Prestador de Serviços:</b> <span id="c-prestador"></span>, portador(a) do CPF/CNPJ nº <span id="c-cpf-prestador"></span>.</p>
+            </div>
+
+            <hr class="c-thin">
+            <div class="c-section">
+              <div class="c-section-title">Cláusula 1ª — Objeto do contrato</div>
+              <p class="c-p">O presente instrumento tem por objeto a contratação dos seguintes serviços: <span id="c-servico"></span>.</p>
+              <p class="c-p" id="c-entregas-row" style="margin-top:8px;">As entregas previstas incluem: <span id="c-entregas"></span>.</p>
+            </div>
+
+            <hr class="c-thin">
+            <div class="c-section">
+              <div class="c-section-title">Cláusula 2ª — Prazo de execução</div>
+              <p class="c-p">Os serviços serão executados em até <span id="c-prazo"></span>, contados a partir da confirmação do pagamento da entrada. O presente contrato prevê <span id="c-revisoes"></span> de revisão sem custo adicional. Alterações fora do escopo acordado serão orçadas separadamente.</p>
+            </div>
+
+            <hr class="c-thin">
+            <div class="c-section">
+              <div class="c-section-title">Cláusula 3ª — Remuneração</div>
+              <p class="c-p">Pela prestação dos serviços ora contratados, o Contratante pagará ao Prestador o valor total de <b>R$ <span id="c-valor"></span></b>, nas seguintes condições: <b>R$ <span id="c-entrada"></span></b> na assinatura deste contrato, e o saldo remanescente na aprovação e entrega final dos materiais. Todos os pagamentos serão realizados via <span id="c-pagamento"></span>.</p>
+            </div>
+
+            <hr class="c-thin">
+            <div class="c-section">
+              <div class="c-section-title">Cláusula 4ª — Propriedade intelectual</div>
+              <p class="c-p">Os direitos patrimoniais sobre os materiais desenvolvidos serão cedidos ao Contratante somente após a quitação integral do valor contratado. Até esse momento, todos os direitos permanecem com o Prestador. O Prestador poderá utilizar o projeto em seu portfólio profissional, salvo expressa proibição por escrito do Contratante.</p>
+            </div>
+
+            <hr class="c-thin">
+            <div class="c-section">
+              <div class="c-section-title">Cláusula 5ª — Rescisão e cancelamento</div>
+              <p class="c-p">Em caso de desistência por parte do Contratante após o início dos trabalhos, o valor da entrada não será reembolsado, a título de compensação pelo trabalho já realizado. Em caso de descumprimento das obrigações pelo Prestador, os valores pagos serão devolvidos integralmente no prazo de 5 (cinco) dias úteis.</p>
+            </div>
+
+            <hr class="c-thin">
+            <div class="c-section">
+              <div class="c-section-title">Cláusula 6ª — Foro</div>
+              <p class="c-p">Fica eleito o foro da comarca de <span id="c-cidade-foro"></span> para dirimir quaisquer controvérsias oriundas deste instrumento, com renúncia expressa a qualquer outro.</p>
+            </div>
+
+            <hr class="c-thin">
+            <p class="c-location" id="c-local-data"></p>
+
+            <div class="c-sigs">
+              <div class="c-sig">
+                <div class="c-sig-line"></div>
+                <div class="c-sig-name" id="c-sig-cliente">Contratante</div>
+                <div class="c-sig-label">Contratante</div>
+              </div>
+              <div class="c-sig">
+                <div class="c-sig-line"></div>
+                <div class="c-sig-name" id="c-sig-prestador">Prestador de Serviços</div>
+                <div class="c-sig-label">Prestador de Serviços</div>
+              </div>
+            </div>
+
+            <div class="c-footer">Gerado com Assina · assina.app · Documento gerado em <span id="c-gerado-em"></span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───
+const templates = {
+  design:  { nome:'Design & Identidade Visual', servico:'Criação de identidade visual completa', entregas:'3 opções de logotipo, paleta de cores, tipografia e manual da marca em PDF' },
+  dev:     { nome:'Desenvolvimento de Software', servico:'Desenvolvimento de site/sistema personalizado', entregas:'Código-fonte, painel administrativo e treinamento de uso' },
+  social:  { nome:'Gestão de Social Media', servico:'Gestão profissional das redes sociais do Contratante', entregas:'Planejamento mensal, criação de posts, relatório de desempenho quinzenal' },
+  consult: { nome:'Consultoria Profissional', servico:'Consultoria estratégica conforme escopo acordado', entregas:'Relatório de diagnóstico, plano de ação e sessões de acompanhamento' },
+  content: { nome:'Produção de Conteúdo', servico:'Produção de conteúdo escrito conforme briefing', entregas:'Textos revisados e entregues em formato editável (Word/Google Docs)' }
+};
+let currentTemplate = 'design';
+let docNum = 1;
+
+// ─── AUTH ───
+function entrar(){
+  const email = document.getElementById('login-email').value || 'demo@assina.app';
+  const name = email.split('@')[0];
+  const display = name.charAt(0).toUpperCase() + name.slice(1);
+  document.getElementById('user-name-display').textContent = display;
+  document.getElementById('user-initial').textContent = display.charAt(0).toUpperCase();
+  document.getElementById('screen-login').classList.remove('active');
+  document.getElementById('screen-app').classList.add('active');
+}
+
+// ─── NAVIGATION ───
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-editor').style.display = 'none';
+  const target = document.getElementById('page-'+id);
+  if(target){ target.classList.add('active'); }
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navMap = {dashboard:0, contratos:1, config:2};
+  if(navMap[id] !== undefined)
+    document.querySelectorAll('.nav-item')[navMap[id]].classList.add('active');
+  document.querySelector('.main-content').style.overflow = 'auto';
+}
+
+function abrirEditor(type){
+  currentTemplate = type;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const ed = document.getElementById('page-editor');
+  ed.style.display = 'grid';
+  document.getElementById('editor-title').textContent = templates[type].nome;
+  document.getElementById('c-tipo-label').textContent = 'Serviços de ' + templates[type].nome;
+  document.getElementById('f-servico').value = templates[type].servico;
+  document.getElementById('f-entregas').value = templates[type].entregas;
+  document.getElementById('f-data').valueAsDate = new Date();
+  // Pre-fill from config
+  const cfgNome = document.getElementById('cfg-nome').value;
+  const cfgCpf = document.getElementById('cfg-cpf').value;
+  const cfgCidade = document.getElementById('cfg-cidade').value;
+  if(cfgNome) document.getElementById('f-prestador').value = cfgNome;
+  if(cfgCpf)  document.getElementById('f-cpf-prestador').value = cfgCpf;
+  if(cfgCidade) document.getElementById('f-cidade').value = cfgCidade;
+  document.querySelector('.main-content').style.overflow = 'hidden';
+  docNum++;
+  render();
+}
+
+function voltarDashboard(){
+  document.getElementById('page-editor').style.display = 'none';
+  showPage('dashboard');
+}
+
+function salvarConfig(){
+  alert('Configurações salvas! Seus dados serão pré-preenchidos nos próximos contratos.');
+}
+
+// ─── RENDER ───
+function val(id){ return document.getElementById(id).value.trim(); }
+
+function span(id, value, fallback){
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(value){
+    el.textContent = value;
+    el.className = 'blank';
+  } else {
+    el.textContent = fallback || '_______________';
+    el.className = 'blank-empty';
+  }
+}
+
+function fmtData(d){
+  if(!d) return null;
+  const [y,m,day] = d.split('-');
+  const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  return `${parseInt(day)} de ${meses[parseInt(m)-1]} de ${y}`;
+}
+
+function render(){
+  span('c-cliente',       val('f-cliente'),       'Nome do cliente');
+  span('c-cpf-cliente',   val('f-cpf-cliente'),   '000.000.000-00');
+  span('c-prestador',     val('f-prestador'),      'Seu nome');
+  span('c-cpf-prestador', val('f-cpf-prestador'),  '000.000.000-00');
+  span('c-servico',       val('f-servico'),        'descrição do serviço');
+  span('c-prazo',         val('f-prazo'),          '___ dias');
+  span('c-revisoes',      val('f-revisoes'),       '___ rodadas');
+  span('c-valor',         val('f-valor'),          '0,00');
+  span('c-entrada',       val('f-entrada'),        '0,00');
+  span('c-pagamento',     val('f-pagamento'),      'PIX');
+  span('c-cidade-foro',   val('f-cidade'),         'sua cidade');
+
+  const ent = val('f-entregas');
+  const entRow = document.getElementById('c-entregas-row');
+  entRow.style.display = ent ? 'block' : 'none';
+  if(ent) span('c-entregas', ent, '');
+
+  const cidade = val('f-cidade');
+  const data = fmtData(val('f-data'));
+  const localData = document.getElementById('c-local-data');
+  localData.textContent = (cidade || '___') + ', ' + (data || '___');
+
+  const cliente = val('f-cliente');
+  const prestador = val('f-prestador');
+  document.getElementById('c-sig-cliente').textContent = cliente || 'Contratante';
+  document.getElementById('c-sig-prestador').textContent = prestador || 'Prestador de Serviços';
+  document.getElementById('c-doc-num').textContent = 'Documento #' + String(docNum).padStart(4,'0');
+  document.getElementById('c-gerado-em').textContent = new Date().toLocaleDateString('pt-BR');
+}
+</script>
+</body>
+</html>
